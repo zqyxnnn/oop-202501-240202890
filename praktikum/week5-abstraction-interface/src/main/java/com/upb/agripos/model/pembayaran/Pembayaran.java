@@ -9,12 +9,13 @@ public abstract class Pembayaran {
         this.total = total;
     }
 
-    public abstract double biaya();               // fee/biaya tambahan
-    public abstract boolean prosesPembayaran();   // proses spesifik tiap metode
+    public abstract double biaya();
+    public abstract boolean prosesPembayaran();
 
     public double totalBayar() {
         return total + biaya();
     }
 
     public String getInvoiceNo() { return invoiceNo; }
-    public double getTot
+    public double getTotal() { return total; }
+}
