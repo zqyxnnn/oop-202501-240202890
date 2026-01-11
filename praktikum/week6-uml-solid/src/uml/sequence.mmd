@@ -1,0 +1,28 @@
+sequenceDiagram
+    actor K as Kasir
+    participant PS as PaymentService
+    participant PM as PaymentMethod
+    participant DB as Database/API
+
+    K->>PS: checkout(total)
+    activate PS
+    PS->>PM: processPayment(amount)
+    activate PM
+    
+    PM->>DB: verifikasiSaldo/Uang()
+    activate DB
+    
+    alt Pembayaran Berhasil
+        DB-->>PM: status: Success
+        PM-->>PS: payment: OK
+        PS->>DB: updateStok()
+        PS-->>K: Tampilkan Berhasil & Cetak Struk
+    else Pembayaran Gagal
+        DB-->>PM: status: Failed
+        PM-->>PS: payment: Error
+        deactivate DB
+        PS-->>K: Tampilkan Pesan "Saldo/Uang Kurang"
+    end
+    
+    deactivate PM
+    deactivate PS

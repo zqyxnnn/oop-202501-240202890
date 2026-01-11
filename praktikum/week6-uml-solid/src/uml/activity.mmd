@@ -1,0 +1,24 @@
+graph TB
+    subgraph "Kasir"
+        A([Mulai]) --> B[Buat Transaksi]
+        B --> C[Tambah Produk]
+        H[Pilih Metode Bayar]
+    end
+
+    subgraph "Sistem"
+        C --> D{Cek Stok}
+        D -- Ada --> E[Hitung Total]
+        D -- Kosong --> F[Tampilkan Stok Habis]
+        F --> C
+        E --> H
+        L[Update Stok] --> M[Cetak Struk]
+        M --> N([Selesai])
+    end
+
+    subgraph "Payment Gateway"
+        H --> I{Verifikasi Saldo}
+        I -- Cukup --> J[Pembayaran Berhasil]
+        I -- Kurang --> K[Pembayaran Gagal]
+        K --> H
+        J --> L
+    end

@@ -1,0 +1,23 @@
+classDiagram
+    class PaymentMethod {
+        <<interface>>
+        +processPayment(amount)
+    }
+
+    class CashPayment {
+        +processPayment(amount)
+    }
+
+    class EWalletPayment {
+        +processPayment(amount)
+    }
+
+    class PaymentService {
+        -PaymentMethod method
+        +PaymentService(method)
+        +checkout(total)
+    }
+
+    PaymentMethod <|.. CashPayment
+    PaymentMethod <|.. EWalletPayment
+    PaymentService o-- PaymentMethod
