@@ -41,42 +41,30 @@ Topik: Data Access Object (DAO) dan CRUD Database dengan JDBC
 
 Contoh integrasi DAO pada kelas `MainDAOTest`:
 
-package com.upb.agripos;
+// Melakukan koneksi dan operasi CRUD
+Connection conn = DriverManager.getConnection(
+    "jdbc:postgresql://localhost:5432/agripos", "postgres", "1234"
+);
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import com.upb.agripos.dao.ProductDAO;
-import com.upb.agripos.dao.ProductDAOImpl;
-import com.upb.agripos.model.Product;
+ProductDAO dao = new ProductDAOImpl(conn);
 
-public class MainDAOTest {
-    public static void main(String[] args) throws Exception {
-        Connection conn = DriverManager.getConnection(
-            "jdbc:postgresql://localhost:5432/agripos",
-            "postgres",
-            "1234"
-        );
+// Create & Update
+dao.insert(new Product("P01", "Pupuk Organik", 25000, 10));
+dao.update(new Product("P01", "Pupuk Organik Premium", 30000, 8));
 
-        ProductDAO dao = new ProductDAOImpl(conn);
+// Read
+Product p = dao.findByCode("P01");
+System.out.println(p.getName()); // Output: Pupuk Organik Premium
 
-        dao.insert(new Product("P01", "Pupuk Organik", 25000, 10));
-        dao.update(new Product("P01", "Pupuk Organik Premium", 30000, 8));
-
-        Product p = dao.findByCode("P01");
-        System.out.println(p.getName());
-
-        dao.delete("P01");
-        conn.close();
-    }
-}
-
-```
+// Delete
+dao.delete("P01");
 
 ---
 
 ## Hasil Eksekusi
 
-Screenshot terminal menunjukkan program berhasil terhubung ke database dan menampilkan data yang telah di-update:
+<img width="1061" height="134" alt="Screenshot 2026-01-26 163440" src="https://github.com/user-attachments/assets/c8d076b9-92aa-4099-a193-07423c778c85" />
+
 
 ---
 
